@@ -1,0 +1,134 @@
+{
+  "rq": "rq1",
+  "jobs": [
+    {
+      "name": "dicm",
+      "stage": "train",
+      "script": "train_library.py",
+      "args": [
+        "--arms",
+        "additive",
+        "--concepts",
+        "cat",
+        "horse",
+        "dog",
+        "elephant",
+        "zebra",
+        "giraffe",
+        "bear",
+        "sheep",
+        "--train-seed",
+        "{seed}",
+        "--budget",
+        "800000",
+        "--lr",
+        "0.0005",
+        "--retain-weight",
+        "8",
+        "--retain-batch",
+        "8",
+        "--extra-retain",
+        "72",
+        "--cohesion-weight",
+        "4",
+        "--interaction-weight",
+        "4",
+        "--accept",
+        "--accept-rate",
+        "0.83",
+        "--accept-round",
+        "100",
+        "--accept-max",
+        "600",
+        "--no-pairs",
+        "--subset-additivity",
+        "--cohesion-siblings",
+        "all",
+        "--wide-val",
+        "--out",
+        "outputs/main_s{seed}"
+      ],
+      "extension": false
+    },
+    {
+      "name": "baselines",
+      "stage": "train",
+      "script": "train_baselines.py",
+      "args": [
+        "--phase",
+        "train",
+        "--out",
+        "outputs/baselines"
+      ],
+      "extension": false
+    },
+    {
+      "name": "dicm",
+      "stage": "eval",
+      "script": "evaluate_subsets.py",
+      "args": [
+        "--arm",
+        "dicm",
+        "--modules",
+        "outputs/main_s{seed}/modules/additive",
+        "--seed-label",
+        "{seed}",
+        "--out",
+        "outputs/subsets/dicm_s{seed}"
+      ],
+      "extension": false
+    },
+    {
+      "name": "esd-merge",
+      "stage": "eval",
+      "script": "evaluate_subsets.py",
+      "args": [
+        "--arm",
+        "esd_merge",
+        "--deltas",
+        "outputs/baselines/deltas",
+        "--out",
+        "outputs/subsets/esd_merge"
+      ],
+      "extension": false
+    },
+    {
+      "name": "uce-merge",
+      "stage": "eval",
+      "script": "evaluate_subsets.py",
+      "args": [
+        "--arm",
+        "uce_merge",
+        "--out",
+        "outputs/subsets/uce_merge"
+      ],
+      "extension": false
+    },
+    {
+      "name": "uce-joint",
+      "stage": "eval",
+      "script": "evaluate_subsets.py",
+      "args": [
+        "--arm",
+        "uce_joint",
+        "--out",
+        "outputs/subsets/uce_joint"
+      ],
+      "extension": false
+    },
+    {
+      "name": "comparison",
+      "stage": "report",
+      "script": "summarize.py",
+      "args": [
+        "outputs/subsets/dicm_s{seed}",
+        "outputs/subsets/esd_merge",
+        "outputs/subsets/uce_merge",
+        "outputs/subsets/uce_joint",
+        "--out",
+        "outputs/reports/rq1_s{seed}"
+      ],
+      "extension": false
+    }
+  ]
+}

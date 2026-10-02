@@ -1,0 +1,8 @@
+"""Command-line entry point for cross domain."""
+from pathlib import Path
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from dicm.experiments.cross_domain import main
+
+if __name__ == "__main__":
+    main()

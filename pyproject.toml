@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dicm"
+version = "0.1.0"
+description = "Constructing composable erasure modules for diffusion models"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [{name = "DiCM authors"}]
+dependencies = ["torch>=2.2", "torchvision>=0.17", "diffusers>=0.30", "transformers>=4.44", "accelerate>=0.33", "safetensors>=0.4", "numpy>=1.24", "Pillow>=10", "PyYAML>=6"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.11"]
+plots = ["matplotlib>=3.8"]
+mixed = ["nudenet>=3.4"]
+
+[project.urls]
+Repository = "https://github.com/xhbii/DiCM"
+
+[tool.setuptools.packages.find]
+include = ["dicm*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.setuptools.package-data]
+dicm = ["configs/*.json"]

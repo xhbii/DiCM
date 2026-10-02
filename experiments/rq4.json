@@ -1,0 +1,145 @@
+{
+  "rq": "rq4",
+  "jobs": [
+    {
+      "name": "dicm",
+      "stage": "train",
+      "script": "train_library.py",
+      "args": [
+        "--arms",
+        "additive",
+        "--concepts",
+        "cat",
+        "horse",
+        "dog",
+        "elephant",
+        "zebra",
+        "giraffe",
+        "bear",
+        "sheep",
+        "--train-seed",
+        "{seed}",
+        "--budget",
+        "800000",
+        "--lr",
+        "0.0005",
+        "--retain-weight",
+        "8",
+        "--retain-batch",
+        "8",
+        "--extra-retain",
+        "72",
+        "--cohesion-weight",
+        "4",
+        "--interaction-weight",
+        "4",
+        "--accept",
+        "--accept-rate",
+        "0.83",
+        "--accept-round",
+        "100",
+        "--accept-max",
+        "600",
+        "--no-pairs",
+        "--subset-additivity",
+        "--cohesion-siblings",
+        "all",
+        "--wide-val",
+        "--out",
+        "outputs/main_s{seed}"
+      ],
+      "extension": false
+    },
+    {
+      "name": "lora-plain",
+      "stage": "train",
+      "script": "train_lora.py",
+      "args": [
+        "--arm",
+        "plain",
+        "--train-seed",
+        "{seed}",
+        "--skip-eval",
+        "--out",
+        "outputs/lora_plain_s{seed}"
+      ],
+      "extension": false
+    },
+    {
+      "name": "lora-plain",
+      "stage": "eval",
+      "script": "evaluate_subsets.py",
+      "args": [
+        "--arm",
+        "lora_merge",
+        "--deltas",
+        "outputs/lora_plain_s{seed}/deltas",
+        "--seed-label",
+        "{seed}",
+        "--out",
+        "outputs/subsets/lora_plain_s{seed}"
+      ],
+      "extension": false
+    },
+    {
+      "name": "lora-discipline",
+      "stage": "train",
+      "script": "train_lora.py",
+      "args": [
+        "--arm",
+        "discipline",
+        "--train-seed",
+        "{seed}",
+        "--skip-eval",
+        "--out",
+        "outputs/lora_discipline_s{seed}"
+      ],
+      "extension": false
+    },
+    {
+      "name": "lora-discipline",
+      "stage": "eval",
+      "script": "evaluate_subsets.py",
+      "args": [
+        "--arm",
+        "lora_merge",
+        "--deltas",
+        "outputs/lora_discipline_s{seed}/deltas",
+        "--seed-label",
+        "{seed}",
+        "--out",
+        "outputs/subsets/lora_discipline_s{seed}"
+      ],
+      "extension": false
+    },
+    {
+      "name": "dicm",
+      "stage": "eval",
+      "script": "evaluate_subsets.py",
+      "args": [
+        "--arm",
+        "dicm",
+        "--modules",
+        "outputs/main_s{seed}/modules/additive",
+        "--seed-label",
+        "{seed}",
+        "--out",
+        "outputs/subsets/dicm_s{seed}"
+      ],
+      "extension": false
+    },
+    {
+      "name": "comparison",
+      "stage": "report",
+      "script": "summarize.py",
+      "args": [
+        "outputs/subsets/dicm_s{seed}",
+        "outputs/subsets/lora_plain_s{seed}",
+        "outputs/subsets/lora_discipline_s{seed}",
+        "--out",
+        "outputs/reports/rq4_s{seed}"
+      ],
+      "extension": false
+    }
+  ]
+}

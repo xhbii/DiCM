@@ -1,0 +1,14 @@
+{
+  "dicm/experiments/ablate_objectives.py": "scripts/477_cohesion_additive.py",
+  "dicm/experiments/train_library.py": "scripts/489_capacity_allocation.py",
+  "dicm/experiments/train_baselines.py": "scripts/479_conflict_bench_baselines_k8.py",
+  "dicm/experiments/evaluate_subsets.py": "scripts/494_subset_reuse.py",
+  "dicm/experiments/measure_modularity.py": "scripts/476_cohesion_coupling_metrics.py",
+  "dicm/experiments/train_lora.py": "scripts/498_lora_esd.py",
+  "dicm/experiments/cross_domain.py": "scripts/487_cross_domain.py",
+  "dicm/experiments/cross_backbone.py": "scripts/490_multi_backbone.py",
+  "dicm/experiments/library16.py": "scripts/491_library16.py",
+  "dicm/experiments/library16_baselines.py": "scripts/492_library16_baselines.py",
+  "dicm/experiments/prepare_library16.py": "scripts/491_prepare_library16.py",
+  "dicm/experiments/ablate_library.py": "scripts/478_cohesion_additive_k8.py"
+}

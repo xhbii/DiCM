@@ -1,0 +1,329 @@
+{
+  "rq": "rq2",
+  "jobs": [
+    {
+      "name": "dicm",
+      "stage": "train",
+      "script": "train_library.py",
+      "args": [
+        "--arms",
+        "additive",
+        "--concepts",
+        "cat",
+        "horse",
+        "dog",
+        "elephant",
+        "zebra",
+        "giraffe",
+        "bear",
+        "sheep",
+        "--train-seed",
+        "{seed}",
+        "--budget",
+        "800000",
+        "--lr",
+        "0.0005",
+        "--retain-weight",
+        "8",
+        "--retain-batch",
+        "8",
+        "--extra-retain",
+        "72",
+        "--cohesion-weight",
+        "4",
+        "--interaction-weight",
+        "4",
+        "--accept",
+        "--accept-rate",
+        "0.83",
+        "--accept-round",
+        "100",
+        "--accept-max",
+        "600",
+        "--no-pairs",
+        "--subset-additivity",
+        "--cohesion-siblings",
+        "all",
+        "--wide-val",
+        "--out",
+        "outputs/main_s{seed}"
+      ],
+      "extension": false
+    },
+    {
+      "name": "baselines",
+      "stage": "train",
+      "script": "train_baselines.py",
+      "args": [
+        "--phase",
+        "train",
+        "--out",
+        "outputs/baselines"
+      ],
+      "extension": false
+    },
+    {
+      "name": "dicm",
+      "stage": "eval",
+      "script": "evaluate_subsets.py",
+      "args": [
+        "--arm",
+        "dicm",
+        "--modules",
+        "outputs/main_s{seed}/modules/additive",
+        "--seed-label",
+        "{seed}",
+        "--out",
+        "outputs/subsets/dicm_s{seed}"
+      ],
+      "extension": false
+    },
+    {
+      "name": "esd-merge",
+      "stage": "eval",
+      "script": "evaluate_subsets.py",
+      "args": [
+        "--arm",
+        "esd_merge",
+        "--deltas",
+        "outputs/baselines/deltas",
+        "--out",
+        "outputs/subsets/esd_merge"
+      ],
+      "extension": false
+    },
+    {
+      "name": "uce-merge",
+      "stage": "eval",
+      "script": "evaluate_subsets.py",
+      "args": [
+        "--arm",
+        "uce_merge",
+        "--out",
+        "outputs/subsets/uce_merge"
+      ],
+      "extension": false
+    },
+    {
+      "name": "uce-joint",
+      "stage": "eval",
+      "script": "evaluate_subsets.py",
+      "args": [
+        "--arm",
+        "uce_joint",
+        "--out",
+        "outputs/subsets/uce_joint"
+      ],
+      "extension": false
+    },
+    {
+      "name": "prefix-baselines",
+      "stage": "eval",
+      "script": "train_baselines.py",
+      "args": [
+        "--phase",
+        "eval",
+        "--out",
+        "outputs/baselines"
+      ],
+      "extension": false
+    },
+    {
+      "name": "restore",
+      "stage": "eval",
+      "script": "verify_restore.py",
+      "args": [
+        "--modules",
+        "outputs/main_s{seed}/modules/additive",
+        "--out",
+        "outputs/restore_s{seed}.json"
+      ],
+      "extension": false
+    },
+    {
+      "name": "comparison",
+      "stage": "report",
+      "script": "summarize.py",
+      "args": [
+        "outputs/subsets/dicm_s{seed}",
+        "outputs/subsets/esd_merge",
+        "outputs/subsets/uce_merge",
+        "outputs/subsets/uce_joint",
+        "--out",
+        "outputs/reports/rq2_s{seed}"
+      ],
+      "extension": false
+    },
+    {
+      "name": "prepare-library16",
+      "stage": "train",
+      "script": "prepare_library16.py",
+      "args": [],
+      "extension": true
+    },
+    {
+      "name": "library16-A-reserve",
+      "stage": "train",
+      "script": "library16.py",
+      "args": [
+        "--library",
+        "A",
+        "--arms",
+        "additive",
+        "--capacity-mode",
+        "reserve",
+        "--subset-additivity",
+        "--accept",
+        "--retain-weight",
+        "8",
+        "--retain-batch",
+        "8",
+        "--cohesion-weight",
+        "4",
+        "--interaction-weight",
+        "4",
+        "--no-pairs",
+        "--out",
+        "outputs/library16_A_reserve"
+      ],
+      "extension": true
+    },
+    {
+      "name": "library16-A-adaptive",
+      "stage": "train",
+      "script": "library16.py",
+      "args": [
+        "--library",
+        "A",
+        "--arms",
+        "additive",
+        "--capacity-mode",
+        "adaptive",
+        "--subset-additivity",
+        "--accept",
+        "--retain-weight",
+        "8",
+        "--retain-batch",
+        "8",
+        "--cohesion-weight",
+        "4",
+        "--interaction-weight",
+        "4",
+        "--no-pairs",
+        "--out",
+        "outputs/library16_A_adaptive"
+      ],
+      "extension": true
+    },
+    {
+      "name": "library16-A-baselines",
+      "stage": "train",
+      "script": "library16_baselines.py",
+      "args": [
+        "--library",
+        "A",
+        "--phase",
+        "all",
+        "--out",
+        "outputs/library16_A_baselines"
+      ],
+      "extension": true
+    },
+    {
+      "name": "library16-B-reserve",
+      "stage": "train",
+      "script": "library16.py",
+      "args": [
+        "--library",
+        "B",
+        "--arms",
+        "additive",
+        "--capacity-mode",
+        "reserve",
+        "--subset-additivity",
+        "--accept",
+        "--retain-weight",
+        "8",
+        "--retain-batch",
+        "8",
+        "--cohesion-weight",
+        "4",
+        "--interaction-weight",
+        "4",
+        "--no-pairs",
+        "--out",
+        "outputs/library16_B_reserve"
+      ],
+      "extension": true
+    },
+    {
+      "name": "library16-B-adaptive",
+      "stage": "train",
+      "script": "library16.py",
+      "args": [
+        "--library",
+        "B",
+        "--arms",
+        "additive",
+        "--capacity-mode",
+        "adaptive",
+        "--subset-additivity",
+        "--accept",
+        "--retain-weight",
+        "8",
+        "--retain-batch",
+        "8",
+        "--cohesion-weight",
+        "4",
+        "--interaction-weight",
+        "4",
+        "--no-pairs",
+        "--out",
+        "outputs/library16_B_adaptive"
+      ],
+      "extension": true
+    },
+    {
+      "name": "library16-B-baselines",
+      "stage": "train",
+      "script": "library16_baselines.py",
+      "args": [
+        "--library",
+        "B",
+        "--phase",
+        "all",
+        "--out",
+        "outputs/library16_B_baselines"
+      ],
+      "extension": true
+    },
+    {
+      "name": "mixed-domain",
+      "stage": "train",
+      "script": "cross_domain.py",
+      "args": [
+        "--out",
+        "outputs/mixed_domain"
+      ],
+      "extension": true
+    },
+    {
+      "name": "sdxl",
+      "stage": "train",
+      "script": "cross_backbone.py",
+      "args": [
+        "--backbone",
+        "sdxl",
+        "--arms",
+        "ours",
+        "esd_seq",
+        "esd_merge",
+        "--esd-lr",
+        "0.000001",
+        "--out",
+        "outputs/sdxl"
+      ],
+      "extension": true
+    }
+  ]
+}

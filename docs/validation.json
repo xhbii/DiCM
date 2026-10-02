@@ -1,0 +1,67 @@
+{
+  "date": "2026-10-02",
+  "cpu_tests_passed": 17,
+  "cli_checks_passed": 78,
+  "training_smoke": {
+    "passed": true,
+    "steps_per_module": 2,
+    "support": {
+      "cat": 1024,
+      "dog": 1024
+    },
+    "locks": {
+      "locked": 7373008,
+      "total": 14745600
+    },
+    "base_fingerprint": "87bf34a7ae4e7fcd630ba5be89d14f85007af3dcc81d32faff9d436ef9f6cc7d",
+    "exact_restore": true,
+    "order_equal_images": true,
+    "frozen_first_module": true,
+    "seconds": 20.047373294830322,
+    "torch": "2.12.0+cu130",
+    "gpu": "NVIDIA GeForce RTX 5080"
+  },
+  "metric_smoke": {
+    "passed": true,
+    "clip": 0.19562077522277832,
+    "dino_self_similarity": 1.0,
+    "detector": {
+      "cat": 0.0,
+      "dog": 0.0
+    }
+  },
+  "restoration_selections": 6,
+  "exact_restoration": true,
+  "aggregation_check": [
+    {
+      "seed": 17,
+      "full_library": {
+        "k": 8,
+        "n": 1,
+        "erasure": 0.9467844202898551,
+        "min_member": 0.8695652173913043,
+        "unselected_retention": null,
+        "dino": 0.7158861458301544,
+        "clip": 0.25906544861694175,
+        "conflicts": 0,
+        "conflict_evaluable": 1
+      },
+      "configurations": 39
+    },
+    {
+      "seed": 29,
+      "full_library": {
+        "k": 8,
+        "n": 1,
+        "erasure": 0.9578804347826086,
+        "min_member": 0.8333333333333334,
+        "unselected_retention": null,
+        "dino": 0.7538938509921232,
+        "clip": 0.25845269051690895,
+        "conflicts": 0,
+        "conflict_evaluable": 1
+      },
+      "configurations": 39
+    }
+  ]
+}
