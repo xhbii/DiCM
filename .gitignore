@@ -8,9 +8,9 @@ dist/
 .venv/
 .env
 .env.*
-outputs/
-data/
-models/
+/outputs/
+/data/
+/models/
 *.pt
 *.pth
 *.safetensors
