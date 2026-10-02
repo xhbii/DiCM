@@ -6,9 +6,9 @@ The compiler combines an erasure objective, retained-behavior protection, cohesi
 
 ## Install
 
+From the repository root:
+
 ```bash
-git clone https://github.com/xhbii/DiCM.git
-cd DiCM
 python -m venv .venv
 source .venv/bin/activate
 # Install a PyTorch / torchvision build matching your CUDA environment first.
